@@ -20,6 +20,14 @@ class StudentController extends Controller
         return view('index');
     }
 
+    public function fetchstudent()
+    {
+        $student = Student::all();
+        return response()->json([
+            'students'=>$student,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -18,4 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('students', [StudentController::class, 'index']);
+Route::get('fetch-students', [StudentController::class, 'fetchstudent']);
 Route::post('students', [StudentController::class, 'store']);

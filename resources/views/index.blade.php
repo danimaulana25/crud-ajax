@@ -52,17 +52,15 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Project</th>
-                    <th>Client</th>
-                    <th>Users</th>
-                    <th>Status</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Course</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody class="table-border-bottom-0">
-                <tr>
-                    <td></td>
-                </tr>
+            <tbody>
             </tbody>
         </table>
     </div>
@@ -70,6 +68,40 @@
 <!--/ Basic Bootstrap Table -->
 <script>
     $(document).ready(function () {
+        fetchstudent();
+        function fetchstudent(){
+            $.ajax({
+                type: "GET",
+                url: "/fetch-students",
+                dataType: "json",
+                success: function (response) {
+                    // console.log(response.students);
+                    $('tbody').html("");
+                    $.each(response.students, function (key, item) { 
+                        $('tbody').append('<tr>\
+                            <td>'+item.id+'</td>\
+                            <td>'+item.name+'</td>\
+                            <td>'+item.email+'</td>\
+                            <td>'+item.phone+'</td>\
+                            <td>'+item.course+'</td>\
+                            <td>\
+                                <div class="dropdown">\
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow btn-light" data-bs-toggle="dropdown">\
+                                        <i class="bx bx-dots-vertical-rounded"></i>\
+                                    </button>\
+                                    <div class="dropdown-menu">\
+                                        <a value="'+item.id+'" class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-2"></i>Edit</a>\
+                                        <a value="'+item.id+'" class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-2"></i>Delete</a>\
+                                    </div>\
+                                </div>\
+                            </td>\
+                        </tr>');
+                    });
+
+                }
+            });
+        }
+
         $(document).on('click', '.add_student' ,function (e) {
             e.preventDefault();
             // console.log("hello");
@@ -104,6 +136,7 @@
                         $('#success_message').text(response.message);
                         $('#addStudentModal').modal('hide');
                         $('#addStudentModal').find('input').val("");
+                        fetchstudent();
                     }
                 }
             });
